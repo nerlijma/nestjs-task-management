@@ -1,0 +1,19 @@
+*** Hacer un proyecto en GitHub y subir el existente local
+
+1. Crear el proyecto en github (sin licencia ni gitignore)
+2. Crear el proyecto local. 
+
+> nest new nestjs-task-management
+
+> git add .
+> git commit -m "First commit"
+> git branch -m master main   // Renombra el master a main (github ahora tiene main)
+> git remote add origin https://github.com/nerlijma/nestjs-task-management.git
+> git remote -v
+> git push origin main
+
+
+
+> nest g module tasks 
+> nest g co tasks --no-spec
+> nest g s tasks --no-spec
