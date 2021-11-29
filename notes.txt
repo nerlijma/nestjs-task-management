@@ -16,15 +16,25 @@
 > nest g co tasks --no-spec
 > nest g s tasks --no-spec
 
-
 npm install uuidv4
 import { v4 as uuid } from 'uuid';
+
+*** Controllers
+Injectan los servicios private tasksService:TaskService
+Tienen en los metodos las anotations @Get, @Post, @Put, etc.
+Y aceptan la ruta. Ej @Post('/:id/status')
+Los parametros se anotan con @Param, @Body, @Query
+
+@Param('id', new ParseUUIDPipe()) id: string,
+@Body() updateTaskStatus: UpdateTaskStatusDto
+@Query() filter: GetTasksFilterDto
 
 *** Pipes
 > yarn add class-validator class-transformer
 
 https://github.com/typestack/class-validator
 Ahi ves la lista de decorators
+
 
 
 import { IsNotEmpty } from "class-validator";
@@ -42,7 +52,61 @@ para que lo tome se agrega en main.ts
   
 Otros usados @IsString(), @IsOptional, @IsEnum(TaskStatus)
 
+NOTA: Recomendado usar Dto como commandos. CreateTaskDto, UpdateTaskDto, etc. Y un Task para el modelo.
+
 **** Postgress con Docker
 > docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 > docker container ls
 > docker container stop postgres-nest
+
+Se usa TypeOrm https://typeorm.io/#/
+
+> yarn add typeorm @nestjs/typeorm pg
+
+Las entities de deben llamar con .entity task.entity.ts
+
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { TaskStatus } from "./task.model";
+
+@Entity()
+export class Task {
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    @Column()
+    title: string;
+
+    @Column()
+    description: string;
+
+    @Column()
+    status: TaskStatus;
+}
+
+Los repositorios se crean dentro de cada folder de featura.
+task.repository.ts
+
+Y se registran en el modulo de la feature:
+
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([TaskRepository])
+  ],
+  
+task.repository.ts
+
+import { EntityRepository, Repository } from "typeorm";
+import { Task } from "./task.entity";
+
+@EntityRepository(Task)
+export class TaskRepository extends Repository<Task> {
+}  
+
+> yarn remove uuidv4, uuid
+
+TaskService, inyectar taskRepository contructor
+@InjectRepository(TaskRepository)
+
+Los servicios son async y retornan una Promise<Task>
+el base respository que heredan ya tiene los metodos basico. EJ
+findOne...
