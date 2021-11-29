@@ -12,8 +12,30 @@
 > git remote -v
 > git push origin main
 
-
-
 > nest g module tasks 
 > nest g co tasks --no-spec
 > nest g s tasks --no-spec
+
+
+npm install uuidv4
+import { v4 as uuid } from 'uuid';
+
+*** Pipes
+> yarn add class-validator class-transformer
+
+https://github.com/typestack/class-validator
+Ahi ves la lista de decorators
+
+
+import { IsNotEmpty } from "class-validator";
+export class CreateTaskDto {
+    @IsNotEmpty()
+    title: string;
+
+    @IsNotEmpty()
+    description: string;
+}
+
+para que lo tome se agrega en main.ts
+  app.useGlobalPipes(new ValidationPipe())
+  await app.listen(30000);

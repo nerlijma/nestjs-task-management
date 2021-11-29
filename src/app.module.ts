@@ -6,4 +6,4 @@ import { TasksModule } from './tasks/tasks.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

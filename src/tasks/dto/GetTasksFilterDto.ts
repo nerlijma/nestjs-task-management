@@ -1,4 +1,4 @@
 export class GetTasksFilterDto {
-    search?: string;
-    status?: string;
+  search?: string;
+  status?: string;
 }
