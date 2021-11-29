@@ -39,3 +39,10 @@ export class CreateTaskDto {
 para que lo tome se agrega en main.ts
   app.useGlobalPipes(new ValidationPipe())
   await app.listen(30000);
+  
+Otros usados @IsString(), @IsOptional, @IsEnum(TaskStatus)
+
+**** Postgress con Docker
+> docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+> docker container ls
+> docker container stop postgres-nest
