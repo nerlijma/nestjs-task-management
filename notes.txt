@@ -119,3 +119,6 @@ findOne...
 *** Encryption 
 bcript encrypt + salt
 > yarn add bcrypt
+
+*** JWT
+> yarn add @nestjs/jwt @nestjs/passport passport passport-jwt
