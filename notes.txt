@@ -83,7 +83,7 @@ export class Task {
     status: TaskStatus;
 }
 
-Los repositorios se crean dentro de cada folder de featura.
+Los repositorios se crean dentro de cada folder de feature.
 task.repository.ts
 
 Y se registran en el modulo de la feature:
@@ -110,3 +110,12 @@ TaskService, inyectar taskRepository contructor
 Los servicios son async y retornan una Promise<Task>
 el base respository que heredan ya tiene los metodos basico. EJ
 findOne...
+
+*** Authentication
+> nest g module auth
+> nest g service auth --no-spec
+> nest g controller auth --no-spec
+
+*** Encryption 
+bcript encrypt + salt
+> yarn add bcrypt
