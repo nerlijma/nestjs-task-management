@@ -3,6 +3,7 @@ import {
     Controller,
     Delete,
     Get,
+    Logger,
     Param,
     ParseUUIDPipe,
     Patch,
@@ -18,10 +19,15 @@ import { GetTasksFilterDto } from './dto/GetTasksFilterDto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('tasks')
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
+    private logger = new Logger('TasksController', { timestamp: true });
+
     constructor(private tasksService: TasksService) { }
 
     @Get()
@@ -36,7 +42,7 @@ export class TasksController {
         @Body() createTaskDto: CreateTaskDto,
         @GetUser() user: User
     ): Promise<Task> {
-        console.log('createTaskDto', createTaskDto);
+        this.logger.verbose(`User ${JSON.stringify(user.username)} is creating task ${JSON.stringify(createTaskDto)}`);
         return this.tasksService.createTask(user, createTaskDto);
     }
 

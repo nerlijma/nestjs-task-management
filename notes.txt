@@ -192,5 +192,32 @@ el interceptor se agrega en main.ts
   app.useGlobalInterceptors(new TransformInterceptor());
   await app.listen(30000);
   
-   
+*** Swagger
+// Swagger Configuration Start
+  const customOptions: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+    customSiteTitle: 'Task System API Docs',
+  };
 
+  const config = new DocumentBuilder()
+    .setTitle('Task System')
+    .setDescription('Task System API description')
+    .setVersion('1.0')
+    .addTag('tasks')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document, customOptions);
+
+  // Swagger Configuration End
+   
+Luego cada controller debe tener   
+@ApiBearerAuth()
+@ApiTags('tasks')
+@Controller('tasks')
+
+**** Logger
+private logger = new Logger('TasksController', { timestamp: true });
+this.logger.verbose(`User ${JSON.stringify(user.username)} is creating task ${JSON.stringify(createTaskDto)}`);

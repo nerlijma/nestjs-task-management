@@ -38,7 +38,7 @@ export class TaskRepository extends Repository<Task> {
             query.andWhere('task.status = :status', { status });
         }
 
-        return await query.execute();
+        return await query.getMany();
     }
 
 
