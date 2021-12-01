@@ -122,3 +122,75 @@ bcript encrypt + salt
 
 *** JWT
 > yarn add @nestjs/jwt @nestjs/passport passport passport-jwt
+> yarn add @types/passport-jwt
+Registro en auth.module.js
+
+@Module({
+  imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      secret: 'topSecret',
+      signOptions: {
+        expiresIn: 3600
+      }
+    }),
+
+JwtModule.register Exports a service to sign tokens. se injecta en authservice
+private jwtService: jwtService
+
+En el login, se usa jwtService.sign para generar un accessToken.
+
+Para que se valida el token en el cada endpoint:
+1. Hay que crear un JwtStrategy que tiene un metodo validate, donde
+consulta si existe el usuario en la base de datos y lo retorna.
+
+Y en el constructor se indica que hay que validar el token from Bearer
+
+constructor(
+        @InjectRepository(UsersRepository)
+        private usersRepository: UsersRepository
+    ) {
+        super({
+            secretOrKey: 'topSecret51',
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        }
+        );
+    }
+
+Luego en authModule hay que ponerlo como un provider, 
+y exports: [JwtStategy, PassportModule] para que los demas lo usen.
+
+Se protegen con @UseGuards(AuthGuard())
+
+    @Post('/test')
+    @UseGuards(AuthGuard())
+    test(@Req() req) {
+        console.log(req);
+    }
+	
+Para proteger todos los metodos de un controller, se debe poner 
+El @UseGuards(AuthGuard()) sobre el controller:
+
+@Controller('tasks')
+@UseGuards(AuthGuard())
+export class TasksController {
+
+Y se debe importar el AuthModule en TaskModule imports array.
+ ** Excluir datos en las entities.
+ 
+Ej. Que la task no muestre el user.
+Se usa  Exclude de class-transformer, ya que  nestjs no sabe como hacerlo automaticamente.
+
+import { Exclude } from "class-transformer";
+
+@Exclude({ toPlainOnly: true })
+@ManyToOne(_type => User, user => user.tasks, { eager: false })
+user: User;
+
+el interceptor se agrega en main.ts
+
+  app.useGlobalInterceptors(new TransformInterceptor());
+  await app.listen(30000);
+  
+   
+
