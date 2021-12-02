@@ -26,7 +26,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
-    private logger = new Logger('TasksController', { timestamp: true });
+    private logger = new Logger(TasksController.name, { timestamp: true });
 
     constructor(private tasksService: TasksService) { }
 
