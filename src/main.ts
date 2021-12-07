@@ -15,6 +15,9 @@ async function bootstrap() {
   SwaggerStartup(app);
 
   const port = 30000
+
+  // app.setGlobalPrefix('api');
+
   await app.listen(30000);
   logger.log(`Application listening on port: ${port}`);
 }

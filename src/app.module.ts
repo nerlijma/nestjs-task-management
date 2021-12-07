@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
+import { ClientModule } from './client/client.module';
+import { MicroModule } from './micro/micro.module';
+import { MicroClientModule } from './micro-client/micro-client.module';
 
 @Module({
   imports: [
@@ -14,9 +17,12 @@ import { AuthModule } from './auth/auth.module';
       password: 'postgres',
       database: 'task-management',
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: true // only for dev!
     }),
-    AuthModule
+    AuthModule,
+    ClientModule,
+    MicroModule,
+    MicroClientModule
   ],
   controllers: [],
   providers: [],

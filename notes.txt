@@ -219,5 +219,37 @@ Luego cada controller debe tener
 @Controller('tasks')
 
 **** Logger
+solo hay logger de console out of the box en nestjs.
+
 private logger = new Logger('TasksController', { timestamp: true });
 this.logger.verbose(`User ${JSON.stringify(user.username)} is creating task ${JSON.stringify(createTaskDto)}`);
+
+*** Configuration
+process.ENV
+
+MY_VARIABLE=myvalue yarn start:dev
+console.log(process.ENV.MY_VARIABLE);
+> yarn add @nestjs/config
+
+private configService: ConfigService
+configService.get('MY_VARIABLE')
+
+**** Unit testing with Jest
+https://jestjs.io
+https://github.com/jmcdo29/testing-nestjs
+https://discord.com/channels/520622812742811698/600976791452254209
+
+> yarn test --watch
+
+describe('nombre metodo por lo general', () => {
+	it('test case', () => {
+		expect(true).toEqual(true);
+	});
+});
+
+NOTAS:
+
+// app.setGlobalPrefix('api'); in main.ts
+
+
+
